@@ -15,7 +15,7 @@ Three people contributed to the creation of this project:
 # Table of Content
 
 - [Introduction](#introduction)
-    - [EfficientNetV2?](#efficientNetV2)
+    - [EfficientNetV2](#efficientNetV2)
     - [Progressive Learning](#progressive-learning)
 - [Reproducibility](#reproducibility)
     - [Progressive Learning Stages](#progressive-learning-stages)
