@@ -15,7 +15,7 @@ Three people contributed to the creation of this project:
 # Table of Content
 
 - [Introduction](#introduction)
-    - [EfficientNetV2](#efficientNetV2)
+    - [EfficientNetV2](#efficientnetv2)
     - [Progressive Learning](#progressive-learning)
 - [Reproducibility](#reproducibility)
     - [Progressive Learning Stages](#progressive-learning-stages)
@@ -25,13 +25,13 @@ Three people contributed to the creation of this project:
     - [Epochs](#epochs)
     - [Dropout Limits](#dropout-limits)
     - [Image Size](#image-sizes)
-- [Alternative Data](#alternative-dataset)
-    - [Pneumonia - Chest X-Ray Images dataset](#Pneumonia---Chest-X-Ray-Images-dataset)
+- [Alternative Data](#alternative-datasets)
+    - [Pneumonia - Chest X-Ray Images dataset](#pneumonia---chest-x-ray-images-dataset)
     - [ Ants and Bees - the Hymenoptera dataset](#ants-and-bees---the-hymenoptera-dataset)
-    - [Monkey Species dataset](#Monkey-Species-dataset)
+    - [Monkey Species dataset](#monkey-species-dataset)
 - [Implementation using ClearML](#implementation-using-clearml)
-- [Conclusions](#conclusion)
-- [References](#References)
+- [Conclusion](#conclusion)
+- [References](#references)
 - [Relevant Links](#relevant-links)
 
 # Introduction
