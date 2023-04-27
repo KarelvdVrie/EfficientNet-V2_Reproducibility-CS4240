@@ -99,25 +99,24 @@ The authors of the paper note that the progressive increase of image size can ca
 
 
 # Alternative Datasets
-For the project, the *Efficientnet_v2_s* is used with three different datasets. The *Efficientnet_v2_s* model was imported from torchvision.models and the pretrained weights are used unless when specifically mentioned otherwise. This is done to evaluate the performance of the model on a new data. 
+To further evaluate how well *Efficientnet_v2_s* maintains its performance on new data, we perform experiments with three different datasets. The *Efficientnet_v2_s* model is imported from torchvision.models and the pretrained weights are used unless when specifically mentioned otherwise. 
 
 ## Pneumonia
-The use of Deep Learning (DL) in medicine is becoming increasingly popular [1]. One impornant application is the use of DL for disease's detection. Thus, the dataset Chest X-Ray Images (Pneumonia) [2] was used for this project. This dataset X-ray images of normal chest, as well as X-ray images of chest with bacterial and viral pnemonia. The images are split in two classes: Normal and Pnemonia.
-
-*Efficientnet_v2_s* with different hyperparameter sets are tested. The set of parameters is shown in the table below.
+The use of Deep Learning (DL) in medicine is becoming increasingly popular [1]. One impornant application is the use of DL for disease's detection. Thus, the dataset Chest X-Ray Images (Pneumonia) [2] is used. This dataset X-ray images of normal chest, as well as X-ray images of chest with bacterial and viral pnemonia. The images are split in two classes: Normal and Pnemonia. We test the *Efficientnet_v2_s* with different hyperparameter sets, shown in the table below.
 |  Parameter | Value(s) | 
 | ------------- | ------------- |
 | Learning rate  | 0.001-0.03  |
 | Batch size  | 10, 20, 30  |
 | Epochs | 10, 15, 20, 30 |
 
-The validation accuracy for different combination of hyperparameters is shown in the table below:
+The validation accuracy for different combination of hyperparameters is shown in the image below:
+
 {% include_relative Graphs/Pneumonia.html %}
 
 The best performance of *Efficientnet_v2_s* with the dataset lead to accuracy of 75% on validation data and 90% on training data. This is somewhat lower than the results of Aakashnain (2018) where validation accuracy of 82.6% was reached using Depthwise Convolution and the results of Madz2000 (2020) where 87.5% accuracy was achieved using Convolutional Neural network. 
 
 ## Ants and Bees
-For the project, a very small dataset was also used, the Hymenoptera dataset [5]. This dataset only contains 398 images in two classes: ants and bees. For this dataset different hypermaraters are tested and shown in the table below: 
+For broader spectrum of testing, we also use a very small dataset - the Hymenoptera dataset [5]. This dataset only contains 398 images in two classes: ants and bees. For this dataset different hypermaraters are tested and shown in the table below: 
 |  Parameter | Value(s) | 
 | ------------- | ------------- |
 | Learning rate  | 0.006-0.02  |
@@ -126,17 +125,29 @@ For the project, a very small dataset was also used, the Hymenoptera dataset [5]
 
 Futhermore, the effect of retraining the weights of the model was evaluated for those hyperparameters. 
 
-As it could be seen by the results above, the best validation accuracy for the given hyperparameters with *Efficientnet_v2_s* for the dataset is 75% when the weight are retrained versus 69.9 % when the pretrained weights are used. This shows that training the weights leads to better results when working with this dataset. It should be noted that best validation performance of 94% was achieved using ResNet-18 with pretrained weights [6].
+Training from scratch:
+{% include_relative Graphs/AntsBees.html %}
+
+Transfer learning:
+{% include_relative Graphs/AntsBees_transfer_learning.html %}
+
+
+As it could be seen by the results above, the best validation accuracy for the given hyperparameters with *Efficientnet_v2_s* for the dataset is 75% when the weight are trained from scratch versus 69.9 % when the pretrained weights are used. This shows that training with randomly initialized weights leads to better results when working with this dataset. It should be noted that best validation performance of 94% was achieved using ResNet-18 with pretrained weights [6].
+
 
 ## Monkeys
-The 10 Monkey Species dataset [7] is also used in the project. The dataset containts 1400 images of 10 classes: mantled howler,patas monkey, bald uakari, japanese macaque, pygmy marmoset, white headed capuchin, silvery marmoset, common squirrel monkey, black headed night monkey, and nilgiri langur. The set of parameters is shown in the table below.
+Lastly, we use the 10 Monkey Species dataset [7]. The dataset containts 1400 images of 10 classes: mantled howler,patas monkey, bald uakari, japanese macaque, pygmy marmoset, white headed capuchin, silvery marmoset, common squirrel monkey, black headed night monkey, and nilgiri langur. The set of parameters is shown in the table below.
 |  Parameter | Value(s) | 
 | ------------- | ------------- |
 | Learning rate  | 0.0001-0.1  |
 | Batch size  | 10, 20, 30 |
 | Epochs | 15, 20, 30, 40, 50 |
 
+
+{% include_relative Graphs/Monkeys.html %}
+
 The best validation accuracy on this dataset is the lowest, 57.3%.
+
 
 # ClearML
 ClearML is a machine learning operations platform that helps data scientists and machine learning engineers manage, track, and collaborate on their machine learning experiments and models. It provides a wide range of features such as experiment tracking, model management, and data versioning, that can help to streamline the machine learning development process. It also allows for easy collaboration between team members and helps to ensure that experiments and models are reproducible. 
