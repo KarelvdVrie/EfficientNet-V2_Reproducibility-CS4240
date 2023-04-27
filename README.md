@@ -42,25 +42,25 @@ Three people contributed to the creation of this project:
 Progressive Learning is a training method proposed by the authors of EfficientNetV2. It splits the training process in separate stages, each of which has a certain set of hyperparameters. The aim is to provide a start with reduced image size and low regularization parameters (such as dropout) and graduately scale them up with every next stage. This allows the training to be speed up and provide the network with different learning settings at every stage. ..
 
 # Reproducibility
-To be able to try and reproduce the results of the original paper we chose to use the official implementation of EfficientNetV2 from PyTorch. While this framework provided a detailed code structure and working examples, we noticed that it was missing complete implementation of the progressive learning process that the paper originally applies. The code was lacking the ability to add the different stages and change the parameters corersponding to them (see Table 6 from the [paper](https://arxiv.org/pdf/2104.00298.pdf)). 
+To be able to try and reproduce the results of the original paper we chose to use the official implementation of EfficientNetV2 from PyTorch, this implementation allows for using pretrained weights or training from scratch and setting the dropout rate. While this framework provided a detailed code structure and working examples, we noticed that it was missing complete implementation of the progressive learning process that the paper originally applies. The code was lacking the ability to add the different stages and change the parameters corersponding to them (see Table 6 from the [paper](https://arxiv.org/pdf/2104.00298.pdf)). 
 
 ## Progressive Learning Stages
+There is no direct way to train in stages when using PyTorch, thus we had to write our own code. While the dataloaders could be changed while training the network, the dropout rate is set when importing the model architecture. This prevented us from running a single training for all the stages. To overcome this we link independent trainings together as you would with transfer learning. At the end of every stage the weights are written to file, the previous training stage is destroyed thus freeing the GPU VRAM, and the next training stage is started by recreating the network using the PyTorch EfficientNetV2-S architecture with the new dropout rate and loading the weights of the previous stage into this. For every stage the current value of the variable parameters are calculated and the dataloader for that stage is created.
+
 
 ## Training on TE
 
-We train on a NVIDIA GPU 3090TX using the dataset [ImageNetTE](https://github.com/fastai/imagenette), which is significantly smaller than ImageNet and contains the 10 easily classified classes.
-
+We trained on a NVIDIA GPU 3090TX using the [ImageNetTE](https://github.com/fastai/imagenette) dataset, which is significantly smaller than ImageNet and contains the 10 easily classified classes. This is because training the whole ImageNet and ImageNet21K would take too much memory and way too much time for this subject. We tried to use the same hyper parameters as the original EfficientNetV2 paper used, however not all parameters have an equivalent in PyTorch, and specifically the weight decay made things worse, thus was left out.
 
 ## Results
-
 
 The training and validation accuracy for the different stages is shown in the **interactive figure** below:
 {% include_relative Graphs/ImageNetTE-EfficientNetV2-S.html %}
 
 
-What can be observed is that compared to the original paper, the current implementation appears to be ...
+What can be observed is that with every stage the network becomes more accurate, however there is a significant difference between the training and validation accuracies showing that the network overfits a little.
 
-While the paper notes an accuracy of 83.9% when trained on ImageNet and 84.9% when trained on ImageNet 21k, we appear to achieve an accuracy of 89.75%. The achieved results indicate that what the authors originally show in the paper appears to be credible. The raise in accuracy can be explained by the construct of the chosen dataset. 
+While the paper notes an accuracy of 83.9% when trained on ImageNet and 84.9% when trained on ImageNet 21k, we achieve an accuracy of 89.75% on a simpeler subset of ImageNet. The achieved results indicate that what the authors originally show in the paper appears to be credible. The raise in accuracy can be explained by the chosen dataset. 
 
 # Hyperparameters
 When it comes to hyperparameters, the most interesting components for investigation are the ones, which are part of the progressive learning process. More specifically, we look at epochs per stage, dropout limits and image sizes. 
@@ -154,6 +154,9 @@ The best validation accuracy on this dataset is the lowest, 57.3%.
 
 # ClearML
 ClearML is a machine learning operations platform that helps data scientists and machine learning engineers manage, track, and collaborate on their machine learning experiments and models. It provides a wide range of features such as experiment tracking, model management, and data versioning, that can help to streamline the machine learning development process. It also allows for easy collaboration between team members and helps to ensure that experiments and models are reproducible. 
+
+We use ClearML to track our experiments and to run hyper parameter optimization tasks. Tasks get assigned to queues, these queues can have workers which will run the tasks. A hyper parameter optimization task will take a base task and optimize the hyper parameters, these parameters can be deterministically or uniformly specified. For every combination of parameters a task will be created and assigned to the queue. Once all tasks have been run the hyper parameter optimization task creates a summary with clear graphs such as seen above. 
+
 
 # Conclusion
 
