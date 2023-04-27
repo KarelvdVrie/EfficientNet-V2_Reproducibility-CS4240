@@ -54,10 +54,11 @@ We train on a NVIDIA GPU 3090TX using the dataset [ImageNetTE](https://github.co
 ## Results
 
 
+The training and validation accuracy for the different stages is shown in the **interactive figure** below:
+{% include_relative Graphs/ImageNetTE-EfficientNetV2-S.html %}
 
 
 What can be observed is that compared to the original paper, the current implementation appears to be ...
-{% include_relative Graphs/ImageNetTE-EfficientNetV2-S.html %}
 
 While the paper notes an accuracy of 83.9% when trained on ImageNet and 84.9% when trained on ImageNet 21k, we appear to achieve an accuracy of 89.75%. The achieved results indicate that what the authors originally show in the paper appears to be credible. The raise in accuracy can be explained by the construct of the chosen dataset. 
 
@@ -65,10 +66,7 @@ While the paper notes an accuracy of 83.9% when trained on ImageNet and 84.9% wh
 When it comes to hyperparameters, the most interesting components for investigation are the ones, which are part of the progressive learning process. More specifically, we look at epochs per stage, dropout limits and image sizes. 
 
 ## Epochs
-Currently a lot of networks are trained by running trainings for many epochs, not directly focusing on optimizing the ... 
-
-The structure of the EfficientNetV2 network uses the concept of stages to make the network faster and more 
-
+The first hyperparameter we consider is the amount of epochs per stage. The original EfficientNetV2 paper promots fast and efficient process. Therefore, it is interesting to consider whether the model can achieve comparable accuracy with less epochs. This would look for the gain of accuracy per minute of training time. With less epochs there is less training time, which can also correspond to less accuracy, however the differences can be significant.
 
 - Original settings: [87] epochs per stage
 - Test parameters: [20, 40, 60] epochs per stage
@@ -76,29 +74,31 @@ The structure of the EfficientNetV2 network uses the concept of stages to make t
 <!-- {% include_relative Graphs/Epochs.html %} There are too many webgl elements so changed with images -->
 ![Epochs](Graphs/Epochs.svg)
 
+The results in the image above show that more epochs increases the training time significantly. What is interesting to note is that with 40 epochs the network appears to be performing 0.08% better compared to the one of 60 epochs, while there is a 39 minutes less training. That would show that the 40 epoch appears to be the most optimal choice from the tests.
+
 ## Dropout Limits
 To assess the sensitivity of the network to the dropout limits, 5 different tests are performed, where for each test the network is trained in 4 stages, each consisting of 20 epochs. This way we can assess how the different ranges of adaptive regularization influence the overall performance. 
 
 - Original settings: min = [0.1], max = [0.3]
 - Test parameters: min = [0.1, 0.2], max = [0.3, 0.5, 0.7]
 
-What can be seen in the results is ... 
-
 <!-- {% include_relative Graphs/Dropout_parallel.html %} There are too many webgl elements so changed with images -->
 ![Dropout](Graphs/Dropout_parallel.svg)
 
+The dropout limits tested show interesting results, as it appears that a smaller limit (0.2 to 0.3) performs better than the original network. What we can also observe is that a big range with a high dropout value at the end (0.1 to 0.7) also performs significantly well. 
 
 ## Image Sizes
 The paper claims, that "_the training can be further sped up by progressively increasing the image size during training time_". To evaluate this and the overall sensitivity of the network to the image size limits, 5 different tests are performed, where for each test the network is trained in 4 stages, each consisting of 20 epochs. As the progressive increase of image size is crucial to the claims of the paper we take special look at the speed and accuracy of the different trainings. 
 
 
-- Original settings: min = [128], max = [300]
-- Test parameters: min = [128, 300], max = [200, 300, 400]
+- Original Settings: min = [128], max = [300]
+- Test Parameters: min = [128,200], max = [200, 300]
 
-
-The authors of the paper note that the progressive increase of image size can cause a drop in accuracy which, as can be seen in our results, is ...
 {% include_relative Graphs/Image_sizes.html %}
 
+<!--The authors of the paper note that the progressive increase of image size can cause a drop in accuracy which, as can be seen in our results, is ...-->
+
+One thing that we can observe from the results in the **interactive figure** above is that lowering the higher limit of the image size to 200 does seem to impact negatively the accuracy. Another point conserns the higher limits - if we up the begin image size to 200 and keep the higher limit the same, the achieved accuracy improves. This is possibly due to the increased information content compared to the original setting. Those changes, however, appear to affect the  time required to train the network. As expected, smaller sized images require less time to train. 
 
 # Alternative Datasets
 To further evaluate how well *Efficientnet_v2_s* maintains its performance on new data, we perform experiments with three different datasets. The *Efficientnet_v2_s* model is imported from torchvision.models and the pretrained weights are used unless when specifically mentioned otherwise. 
@@ -111,7 +111,7 @@ The use of Deep Learning (DL) in medicine is becoming increasingly popular [1]. 
 | Batch size  | 10, 20, 30  |
 | Epochs | 10, 15, 20, 30 |
 
-The validation accuracy for different combination of hyperparameters is shown in the image below:
+The validation accuracy for different combination of hyperparameters is shown in the **interactive figure** below:
 
 {% include_relative Graphs/Pneumonia.html %}
 
@@ -125,7 +125,7 @@ For broader spectrum of testing, we also use a very small dataset - the Hymenopt
 | Batch size  | 10, 20, 30  |
 | Epochs | 50, 75, 100 |
 
-Futhermore, the effect of retraining the weights of the model was evaluated for those hyperparameters. 
+Futhermore, the effect of retraining the weights of the model was evaluated for those hyperparameters. The validation accuracy for different combination of hyperparameters is shown in the **interactive figures** below:
 
 Training from scratch:
 {% include_relative Graphs/AntsBees.html %}
@@ -145,6 +145,7 @@ Lastly, we use the 10 Monkey Species dataset [7]. The dataset containts 1400 ima
 | Batch size  | 10, 20, 30 |
 | Epochs | 15, 20, 30, 40, 50 |
 
+The validation accuracy for different combination of hyperparameters is shown in the **interactive figure** below:
 
 {% include_relative Graphs/Monkeys.html %}
 
