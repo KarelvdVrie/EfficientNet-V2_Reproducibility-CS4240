@@ -27,8 +27,11 @@ Three people contributed to the creation of this project:
     - [Epochs](#epochs)
     - [Dropout Limits](#dropout-limits)
     - [Image Size](#image-sizes)
-- [Alternative Data](#ada)
-- [ClearML](#clearml)
+- [Alternative Data](#alternative-dataset)
+    - [Pneumonia - Chest X-Ray Images Dataset](#Pneumonia-- -Chest-X-Ray-Images-Dataset)
+    - [ Ants and Bees - the Hymenoptera dataset](#ants-and-bees---the-hymenoptera-dataset)
+    - [Monkey Species dataset](#Monkey-Species-dataset)
+- [Implementation using ClearML](#implementation-using-clearml)
 - [Conclusions](#conclusion)
 - [Relevant Links](#relevant-links)
 
@@ -103,13 +106,12 @@ One thing that we can observe from the results in the **interactive figure** abo
 # Alternative Datasets
 To further evaluate how well *Efficientnet_v2_s* maintains its performance on new data, we perform experiments with three different datasets. The *Efficientnet_v2_s* model is imported from torchvision.models and the pretrained weights are used unless when specifically mentioned otherwise. 
 
-## Pneumonia
+## Pneumonia - Chest X-Ray Images Dataset
 The use of Deep Learning (DL) in medicine is becoming increasingly popular [1]. One impornant application is the use of DL for disease's detection. Thus, the dataset Chest X-Ray Images (Pneumonia) [2] is used. This dataset X-ray images of normal chest, as well as X-ray images of chest with bacterial and viral pnemonia. The images are split in two classes: Normal and Pnemonia. We test the *Efficientnet_v2_s* with different hyperparameter sets, shown in the table below.
-|  Parameter | Value(s) | 
-| ------------- | ------------- |
-| Learning rate  | 0.001-0.03  |
-| Batch size  | 10, 20, 30  |
-| Epochs | 10, 15, 20, 30 |
+
+- Learning rate - [0.001-0.03]
+- Batch size - [10, 20, 30]
+- Epochs - [10, 15, 20, 30]
 
 The validation accuracy for different combination of hyperparameters is shown in the **interactive figure** below:
 
@@ -117,13 +119,12 @@ The validation accuracy for different combination of hyperparameters is shown in
 
 The best performance of *Efficientnet_v2_s* with the dataset lead to accuracy of 75% on validation data and 90% on training data. This is somewhat lower than the results of Aakashnain (2018) where validation accuracy of 82.6% was reached using Depthwise Convolution and the results of Madz2000 (2020) where 87.5% accuracy was achieved using Convolutional Neural network. 
 
-## Ants and Bees
+## Ants and Bees - the Hymenoptera dataset
 For broader spectrum of testing, we also use a very small dataset - the Hymenoptera dataset [5]. This dataset only contains 398 images in two classes: ants and bees. For this dataset different hypermaraters are tested and shown in the table below: 
-|  Parameter | Value(s) | 
-| ------------- | ------------- |
-| Learning rate  | 0.006-0.02  |
-| Batch size  | 10, 20, 30  |
-| Epochs | 50, 75, 100 |
+
+- Learning rate - [0.006 - 0.02]
+- Batch size - [10, 20, 30]
+- Epochs - [50, 75, 100]
 
 Futhermore, the effect of retraining the weights of the model was evaluated for those hyperparameters. The validation accuracy for different combination of hyperparameters is shown in the **interactive figures** below:
 
@@ -136,27 +137,23 @@ Transfer learning:
 
 As it could be seen by the results above, the best validation accuracy for the given hyperparameters with *Efficientnet_v2_s* for the dataset is 75% when the weight are trained from scratch versus 69.9 % when the pretrained weights are used. This shows that training with randomly initialized weights leads to better results when working with this dataset. It should be noted that best validation performance of 94% was achieved using ResNet-18 with pretrained weights [6].
 
-
-## Monkeys
+## Monkey Species dataset
 Lastly, we use the 10 Monkey Species dataset [7]. The dataset containts 1400 images of 10 classes: mantled howler,patas monkey, bald uakari, japanese macaque, pygmy marmoset, white headed capuchin, silvery marmoset, common squirrel monkey, black headed night monkey, and nilgiri langur. The set of parameters is shown in the table below.
-|  Parameter | Value(s) | 
-| ------------- | ------------- |
-| Learning rate  | 0.0001-0.1  |
-| Batch size  | 10, 20, 30 |
-| Epochs | 15, 20, 30, 40, 50 |
+
+- Learning rate - [0.0001 - 0.1]
+- Batch size - [10, 20, 30]
+- Epochs - [15, 20, 30, 40, 50]
 
 The validation accuracy for different combination of hyperparameters is shown in the **interactive figure** below:
 
 {% include_relative Graphs/Monkeys.html %}
 
-The best validation accuracy on this dataset is the lowest, 57.3%.
+What is interesting about this dataset, is that the best achieved validation accuracy is only 57.3%, which is significantly lower that the original results or the other two used datasets. 
 
-
-# ClearML
+# Implementation using ClearML
 ClearML is a machine learning operations platform that helps data scientists and machine learning engineers manage, track, and collaborate on their machine learning experiments and models. It provides a wide range of features such as experiment tracking, model management, and data versioning, that can help to streamline the machine learning development process. It also allows for easy collaboration between team members and helps to ensure that experiments and models are reproducible. 
 
 We use ClearML to track our experiments and to run hyper parameter optimization tasks. Tasks get assigned to queues, these queues can have workers which will run the tasks. A hyper parameter optimization task will take a base task and optimize the hyper parameters, these parameters can be deterministically or uniformly specified. For every combination of parameters a task will be created and assigned to the queue. Once all tasks have been run the hyper parameter optimization task creates a summary with clear graphs such as seen above. 
-
 
 # Conclusion
 Overall, the experiments we performed show promising results both about reproducing and hyperparameter sensitivity. We were able to achieve a similar accuracy on a given ImageNet dataset using the progressive learning components defined in the paper. Furthermore, our analysis of the hyperparameters of interest show that the dropout range can highly influence the performance of the network and the epochs/image size affect the total time of the training. What is particularly interesting is the behaviour of the EfficientNetV2 on new data - while we expected that with using transfer learning we would be able to achieve high accuracy on different types of data sets, the results do not seem to be as high. It would be worthwile for future work to further explore how the network behaves with higher variety of datasets, so that the quantitative analysis can be completed. Furthremore, it would be useful to compare how the network behaves with and without stages, when trained using the same parameters, as this would strengthen the story regarding the benefits of using stages.
