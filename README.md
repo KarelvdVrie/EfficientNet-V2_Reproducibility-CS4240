@@ -159,6 +159,7 @@ We use ClearML to track our experiments and to run hyper parameter optimization 
 
 
 # Conclusion
+Overall, the experiments we performed show promising results both about reproducing and hyperparameter sensitivity. We were able to achieve a similar accuracy on a given ImageNet dataset using the progressive learning components defined in the paper. Furthermore, our analysis of the hyperparameters of interest show that the dropout range can highly influence the performance of the network and the epochs/image size affect the total time of the training. What is particularly interesting is the behaviour of the EfficientNetV2 on new data - while we expected that with using transfer learning we would be able to achieve high accuracy on different types of data sets, the results do not seem to be as high. It would be worthwile for future work to further explore how the network behaves with higher variety of datasets, so that the quantitative analysis can be completed. Furthremore, it would be useful to compare how the network behaves with and without stages, when trained using the same parameters, as this would strengthen the story regarding the benefits of using stages.
 
 # References
 [1] Egger, J., Gsaxner, C., Pepe, A. and Li, J. (2022). Medical deep learning—A systematic meta-review. Computer Methods and Programs in Biomedicine, [online] 221, pp.106874–106874. doi:https://doi.org/10.1016/j.cmpb.2022.106874.
