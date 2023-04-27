@@ -73,7 +73,8 @@ The structure of the EfficientNetV2 network uses the concept of stages to make t
 - Original settings: [87] epochs per stage
 - Test parameters: [20, 40, 60] epochs per stage
 
-{% include_relative Graphs/Epochs.html %}
+<!-- {% include_relative Graphs/Epochs.html %} There are too many webgl elements so changed with images -->
+![Epochs](Graphs/Epochs.svg)
 
 ## Dropout Limits
 To assess the sensitivity of the network to the dropout limits, 5 different tests are performed, where for each test the network is trained in 4 stages, each consisting of 20 epochs. This way we can assess how the different ranges of adaptive regularization influence the overall performance. 
@@ -83,7 +84,8 @@ To assess the sensitivity of the network to the dropout limits, 5 different test
 
 What can be seen in the results is ... 
 
-{% include_relative Graphs/Dropout_parallel.html %}
+<!-- {% include_relative Graphs/Dropout_parallel.html %} There are too many webgl elements so changed with images -->
+![Dropout](Graphs/Dropout_parallel.svg)
 
 
 ## Image Sizes
