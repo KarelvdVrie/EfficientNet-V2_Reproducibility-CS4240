@@ -1,6 +1,3 @@
-
-EfficientNetV2-S implementation in Pytorch using stages as in the paper. A reproducibility project for the Deep Learning course CS4240 at the TU Delft. 
-
 # EfficientNet-V2_Reproducibility-CS4240
 In Machine Learning the topic of reproducibility has become highly relevant, given the need for sustainable and reusable innovation. The following blog post and corresponding repository present our reproducibility research procedure regarding the EfficientNet-V2 convolution network originally presented by Mingxing Tan and Quoc V Le in their work "_[EfficientNet V2: Smaller Models and Faster Training](https://paperswithcode.com/paper/efficientnetv2-smaller-models-and-faster)_". The novel approach presented in the work employs progressive learning to achieve speed up and efficient process.
 
@@ -11,14 +8,15 @@ _Disclaimer:_ This project is created as part of the Deep Learning course CS4240
 # Authors
 Three people contributed to the creation of this project:
 
-- Karel van de Vrie [k.w.vandevrie@student.tudelft.nl] - PyTorch implementation enrichment with stages, reproducibility, ClearML implementation
-- Nikoletta Nikolova [n.d.nikolova@student.tudelft.nl] - Hyperparameters sensitivity and analysis
-- Anna-Maria Klianeva [a.v.klianeva@student.tudelft.nl] - Alternative datasets experiments and performance evaluation
+- Karel van de Vrie [k.w.vandevrie@student.tudelft.nl] [5658756] - PyTorch implementation enrichment with stages, reproducibility, ClearML implementation
+- Nikoletta Nikolova [n.d.nikolova@student.tudelft.nl] [4457757] - Hyperparameters sensitivity and analysis
+- Anna-Maria Klianeva [a.v.klianeva@student.tudelft.nl] [4837010] - Alternative datasets experiments and performance evaluation
  
 # Table of Content
 
-- [Relevant Links](#Relevant-links)
 - [Introduction](#introduction)
+    - [EfficientNetV2?](#efficientNetV2)
+    - [Progressive Learning](#progressive-learning)
 - [Reproducibility](#reproducibility)
     - [Progressive Learning Stages](#progressive-learning-stages)
     - [Training on TE](#training-on-te)
@@ -33,23 +31,26 @@ Three people contributed to the creation of this project:
     - [Monkey Species dataset](#Monkey-Species-dataset)
 - [Implementation using ClearML](#implementation-using-clearml)
 - [Conclusions](#conclusion)
+- [References](#References)
 - [Relevant Links](#relevant-links)
 
-
-
 # Introduction
+In their work Mingxing Tan and Quoc V. Le (2021) [9] present a new variation of the EfficientNet [11] network, which is considered to be faster and more efficient than its predecessors. 
 
-## What is EfficientNet?
+## EfficientNetV2
 
-## What is progressive learning?
-Progressive Learning is a training method proposed by the authors of EfficientNetV2. It splits the training process in separate stages, each of which has a certain set of hyperparameters. The aim is to provide a start with reduced image size and low regularization parameters (such as dropout) and graduately scale them up with every next stage. This allows the training to be speed up and provide the network with different learning settings at every stage. ..
+The EfficientNetV2 is a convolutional neural network, which is build with improvements, which aim to address the set of bottle necks originally present within the EfficientNet network. The new stucture makes use of MBConv [10],[11] and fused-MBConv [12]. 
+
+The original network is trained on ImageNet using 4 stages, of 87 epochs each, with batch size of 4096, learning rate warmed up from 0 to 0.256 (and then decay by 0.97 every 2.4 epochs), Image size of 128 to 300, dropout rate of 0.1 to 0.3, random augmentation of 5 to 15. (For more details on the exact parameters, please consult the original paper [8])
+
+## Progressive learning
+Progressive Learning is a training method proposed by the authors of EfficientNetV2. It splits the training process in separate stages, each of which has a certain set of hyperparameters. The aim is to provide a start with reduced image size and low regularization parameters (such as dropout) and graduately scale them up with every next stage. This allows the training to be speed up and provide the network with different learning settings at every stage. It is a central element of the EfficientNetV2 structure, which is why it is the main focus of our reproducability project explained in the next sections.
 
 # Reproducibility
 To be able to try and reproduce the results of the original paper we chose to use the official implementation of EfficientNetV2 from PyTorch, this implementation allows for using pretrained weights or training from scratch and setting the dropout rate. While this framework provided a detailed code structure and working examples, we noticed that it was missing complete implementation of the progressive learning process that the paper originally applies. The code was lacking the ability to add the different stages and change the parameters corersponding to them (see Table 6 from the [paper](https://arxiv.org/pdf/2104.00298.pdf)). 
 
 ## Progressive Learning Stages
 There is no direct way to train in stages when using PyTorch, thus we had to write our own code. While the dataloaders could be changed while training the network, the dropout rate is set when importing the model architecture. This prevented us from running a single training for all the stages. To overcome this we link independent trainings together as you would with transfer learning. At the end of every stage the weights are written to file, the previous training stage is destroyed thus freeing the GPU VRAM, and the next training stage is started by recreating the network using the PyTorch EfficientNetV2-S architecture with the new dropout rate and loading the weights of the previous stage into this. For every stage the current value of the variable parameters are calculated and the dataloader for that stage is created.
-
 
 ## Training on TE
 
@@ -59,7 +60,6 @@ We trained on a NVIDIA GPU 3090TX using the [ImageNetTE](https://github.com/fast
 
 The training and validation accuracy for the different stages is shown in the **interactive figure** below:
 {% include_relative Graphs/ImageNetTE-EfficientNetV2-S.html %}
-
 
 What can be observed is that with every stage the network becomes more accurate, however there is a significant difference between the training and validation accuracies showing that the network overfits a little. Additionally stage 4 doesn't seem to add a lot to this training, indicating that the hyperparameters, specifically reguralization, will need tuning. Alternatively it shows that the 4th stage is not required thus saving time and network bandwidth by enabeling a smaller image size.
 
@@ -176,6 +176,12 @@ Overall, the experiments we performed show promising results both about reproduc
 ‌[8] Howard, J. (2022), ImageNetTE. Available at: https://github.com/fastai/imagenette [Accessed 26 Apr. 2023]
 ‌
 [9] Mingxing Tan and Quoc V. Le (2021), EfficientNetV2: Smaller Models and Faster Training, [online] 139, pp.10096-10106. doi:https://doi.org/10.48550/arXiv.2104.00298.
+
+[10] Sandler, M., Howard, A., Zhu, M., Zhmoginov, A., and Chen, L.-C. Mobilenetv2: Inverted residuals and linear bottlenecks. CVPR, 2018
+
+[11] Tan, M. and Le, Q. V. Efficientnet: Rethinking model scaling for convolutional neural networks. ICML, 2019a.
+
+[12] Gupta, S. and Tan, M. Efficientnet-edgetpu: Creating accelerator-optimized neural networks with automl. https://ai.googleblog.com/2019/08/efficientnetedgetpu-creating.html, 2019.
 ‌
 # Relevant Links
 
