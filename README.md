@@ -28,7 +28,7 @@ Three people contributed to the creation of this project:
     - [Dropout Limits](#dropout-limits)
     - [Image Size](#image-sizes)
 - [Alternative Data](#alternative-dataset)
-    - [Pneumonia - Chest X-Ray Images Dataset](#Pneumonia-- -Chest-X-Ray-Images-Dataset)
+    - [Pneumonia - Chest X-Ray Images Dataset](#Pneumonia---Chest-X-Ray-Images-Dataset)
     - [ Ants and Bees - the Hymenoptera dataset](#ants-and-bees---the-hymenoptera-dataset)
     - [Monkey Species dataset](#Monkey-Species-dataset)
 - [Implementation using ClearML](#implementation-using-clearml)
