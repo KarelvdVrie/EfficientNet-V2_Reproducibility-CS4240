@@ -9,7 +9,7 @@ _Disclaimer:_ This project is created as part of the Deep Learning course CS4240
 Three people contributed to the creation of this project:
 
 - Karel van de Vrie [k.w.vandevrie@student.tudelft.nl] [5658756] - PyTorch implementation enrichment with stages, reproducibility, ClearML implementation
-- Nikoletta Nikolova [n.d.nikolova@student.tudelft.nl] [4457757] - Hyperparameters sensitivity and analysis
+- Nikoletta Nikolova [n.d.nikolova@student.tudelft.nl] [4457757] - Hyperparameters sensitivity, analysis and experimentation
 - Anna-Maria Klianeva [a.v.klianeva@student.tudelft.nl] [4837010] - Alternative datasets experiments and performance evaluation
  
 # Table of Content
@@ -41,7 +41,7 @@ In their work Mingxing Tan and Quoc V. Le (2021) [9] present a new variation of 
 
 The EfficientNetV2 is a convolutional neural network, which is build with improvements, which aim to address the set of bottle necks originally present within the EfficientNet network. The new stucture makes use of MBConv [10],[11] and fused-MBConv [12]. 
 
-The original network is trained on ImageNet using 4 stages, of 87 epochs each, with batch size of 4096, learning rate warmed up from 0 to 0.256 (and then decay by 0.97 every 2.4 epochs), Image size of 128 to 300, dropout rate of 0.1 to 0.3, random augmentation of 5 to 15. (For more details on the exact parameters, please consult the original paper [8])
+The original network is trained on ImageNet using 4 stages, of 87 epochs each, with batch size of 4096, learning rate warmed up from 0 to 0.256 (and then decay by 0.97 every 2.4 epochs), Image size of 128 to 300, dropout rate of 0.1 to 0.3, random augmentation of 5 to 15. (For more details on the exact parameters, please consult the original paper [9])
 
 ## Progressive learning
 Progressive Learning is a training method proposed by the authors of EfficientNetV2. It splits the training process in separate stages, each of which has a certain set of hyperparameters. The aim is to provide a start with reduced image size and low regularization parameters (such as dropout) and graduately scale them up with every next stage. This allows the training to be speed up and provide the network with different learning settings at every stage. It is a central element of the EfficientNetV2 structure, which is why it is the main focus of our reproducability project explained in the next sections.
@@ -174,7 +174,7 @@ Overall, the experiments we performed show promising results both about reproduc
 ‌[7] Mario (2018). 10 Monkey Species. [online] Kaggle.com. Available at: https://www.kaggle.com/datasets/slothkong/10-monkey-species [Accessed 26 Apr. 2023].
 
 ‌[8] Howard, J. (2022), ImageNetTE. Available at: https://github.com/fastai/imagenette [Accessed 26 Apr. 2023]
-‌
+
 [9] Mingxing Tan and Quoc V. Le (2021), EfficientNetV2: Smaller Models and Faster Training, [online] 139, pp.10096-10106. doi:https://doi.org/10.48550/arXiv.2104.00298.
 
 [10] Sandler, M., Howard, A., Zhu, M., Zhmoginov, A., and Chen, L.-C. Mobilenetv2: Inverted residuals and linear bottlenecks. CVPR, 2018
