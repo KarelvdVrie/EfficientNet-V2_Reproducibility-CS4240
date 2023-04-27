@@ -2,9 +2,9 @@
 EfficientNetV2-S implementation in Pytorch using stages as in the paper. A reproducibility project for the Deep Learning course CS4240 at the TU Delft. 
 
 # EfficientNet-V2_Reproducibility-CS4240
-In Machine Learning the topic of reproducibility has become highly relevant, given the need for sustainable and reusable innovation. The following blog post and corresponding repository present our reproducibility research proced regarding the EfficientNet-V2 convolution network originally presented by Mingxing Tan and Quoc V Le in their work "_[EfficientNet V2: Smaller Models and Faster Training](https://paperswithcode.com/paper/efficientnetv2-smaller-models-and-faster)_". The novel approach presented in the work employs progressive learning to achieve spead up and efficient process. 
+In Machine Learning the topic of reproducibility has become highly relevant, given the need for sustainable and reusable innovation. The following blog post and corresponding repository present our reproducibility research procedure regarding the EfficientNet-V2 convolution network originally presented by Mingxing Tan and Quoc V Le in their work "_[EfficientNet V2: Smaller Models and Faster Training](https://paperswithcode.com/paper/efficientnetv2-smaller-models-and-faster)_". The novel approach presented in the work employs progressive learning to achieve speed up and efficient process.
 
-We focus our exploration in three main parts: (1) reprodusability of results shown in the paper using the ImageNetTE dataset; (2) hyperparameter sensitivity of the progressive learning elements; (3) transferability of performance on different datasets. Every component of our study is executed individually using the PyTorch implementation ([pytorch/vision](https://github.com/pytorch/vision)) combined with ClearML. In the next sections we outline the details of every step of our process starting with introduction of the paper, methodology, steps and finishing with conclusions and relevant links.
+We focus our exploration on three main parts: (1) reproducibility of results shown in the paper using the ImageNetTE dataset; (2) hyperparameter sensitivity of the progressive learning elements; (3) transferability of performance on different datasets. Every component of our study is executed individually using the PyTorch implementation ([pytorch/vision](https://github.com/pytorch/vision)) combined with ClearML. In the next sections, we outline the details of every step of our process starting with the introduction of the paper, methodology, steps, and finishing with conclusions and relevant links.
 
 _Disclaimer:_ This project is created as part of the Deep Learning course CS4240 at the TU Delft.
 
@@ -28,7 +28,7 @@ Three people contributed to the creation of this project:
     - [Dropout Limits](#dropout-limits)
     - [Image Size](#image-sizes)
 - [Alternative Data](#alternative-dataset)
-    - [Pneumonia - Chest X-Ray Images Dataset](#Pneumonia---Chest-X-Ray-Images-Dataset)
+    - [Pneumonia - Chest X-Ray Images dataset](#Pneumonia---Chest-X-Ray-Images-dataset)
     - [ Ants and Bees - the Hymenoptera dataset](#ants-and-bees---the-hymenoptera-dataset)
     - [Monkey Species dataset](#Monkey-Species-dataset)
 - [Implementation using ClearML](#implementation-using-clearml)
@@ -61,9 +61,9 @@ The training and validation accuracy for the different stages is shown in the **
 {% include_relative Graphs/ImageNetTE-EfficientNetV2-S.html %}
 
 
-What can be observed is that with every stage the network becomes more accurate, however there is a significant difference between the training and validation accuracies showing that the network overfits a little.
+What can be observed is that with every stage the network becomes more accurate, however there is a significant difference between the training and validation accuracies showing that the network overfits a little. Additionally stage 4 doesn't seem to add a lot to this training, indicating that the hyperparameters, specifically reguralization, will need tuning. Alternatively it shows that the 4th stage is not required thus saving time and network bandwidth by enabeling a smaller image size.
 
-While the paper notes an accuracy of 83.9% when trained on ImageNet and 84.9% when trained on ImageNet 21k, we achieve an accuracy of 89.75% on a simpeler subset of ImageNet. The achieved results indicate that what the authors originally show in the paper appears to be credible. The raise in accuracy can be explained by the chosen dataset. 
+While the paper notes an accuracy of 83.9% when trained on ImageNet and 84.9% when trained on ImageNet 21k, we achieve an accuracy of 89.75% on a simpeler subset of ImageNet. The achieved results indicate that what the authors originally show in the paper appears to be credible. The raise in accuracy can be explained by the chosen dataset. When comparing to the top results of ImageNetTE we fall short, the top result is 95.11% [8] where ours is 89.7%. 
 
 # Hyperparameters
 When it comes to hyperparameters, the most interesting components for investigation are the ones, which are part of the progressive learning process. More specifically, we look at epochs per stage, dropout limits and image sizes. 
@@ -106,7 +106,7 @@ One thing that we can observe from the results in the **interactive figure** abo
 # Alternative Datasets
 To further evaluate how well *Efficientnet_v2_s* maintains its performance on new data, we perform experiments with three different datasets. The *Efficientnet_v2_s* model is imported from torchvision.models and the pretrained weights are used unless when specifically mentioned otherwise. 
 
-## Pneumonia - Chest X-Ray Images Dataset
+## Pneumonia - Chest X-Ray Images dataset
 The use of Deep Learning (DL) in medicine is becoming increasingly popular [1]. One impornant application is the use of DL for disease's detection. Thus, the dataset Chest X-Ray Images (Pneumonia) [2] is used. This dataset X-ray images of normal chest, as well as X-ray images of chest with bacterial and viral pnemonia. The images are split in two classes: Normal and Pnemonia. We test the *Efficientnet_v2_s* with different hyperparameter sets, shown in the table below.
 
 - Learning rate - [0.001-0.03]
@@ -173,13 +173,14 @@ Overall, the experiments we performed show promising results both about reproduc
 
 ‌[7] Mario (2018). 10 Monkey Species. [online] Kaggle.com. Available at: https://www.kaggle.com/datasets/slothkong/10-monkey-species [Accessed 26 Apr. 2023].
 
+‌[8] Howard, J. (2022), ImageNetTE. Available at: https://github.com/fastai/imagenette [Accessed 26 Apr. 2023]
 ‌
-‌
-
+[9] Mingxing Tan and Quoc V. Le (2021), EfficientNetV2: Smaller Models and Faster Training, [online] 139, pp.10096-10106. doi:https://doi.org/10.48550/arXiv.2104.00298.
 ‌
 # Relevant Links
 
 - Our reprodusability: https://github.com/KarelvdVrie/EfficientNet-V2_Reproducibility-CS4240
 - Original paper: https://arxiv.org/pdf/2104.00298.pdf
 - Papers with code: https://paperswithcode.com/paper/efficientnetv2-smaller-models-and-faster
-- PyTorch implementation: https://github.com/pytorch/vision
+- PyTorch implementation: https://pytorch.org/vision/main/models/generated/torchvision.models.efficientnet_v2_s.html#torchvision.models.efficientnet_v2_s
+- ImageNetTE: https://github.com/fastai/imagenette
