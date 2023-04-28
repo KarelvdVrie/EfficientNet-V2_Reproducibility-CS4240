@@ -95,7 +95,7 @@ The paper claims, that "_the training can be further sped up by progressively in
 
 
 - Original Settings: min = [128], max = [300]
-- Test Parameters: min = [128,200], max = [200, 300]
+- Test Parameters: min = [128, 200], max = [200, 300]
 
 {% include_relative Graphs/Image_sizes.html %}
 
@@ -135,7 +135,7 @@ Transfer learning:
 {% include_relative Graphs/AntsBees_transfer_learning.html %}
 
 
-As could be seen by the results above, the best validation accuracy for the given hyperparameters with *Efficientnet_v2_s* for the dataset is 75% when the weight is trained from scratch versus 69.9 % when the pre-trained weights are used. This shows that training with randomly initialized weights leads to better results when working with this dataset. It should be noted that the best validation performance of 94% was achieved using ResNet-18 with pre-trained weights [6].
+As could be seen by the results above, the best validation accuracy for the given hyperparameters with *Efficientnet_v2_s* for the dataset is 75% when the weight is trained from scratch versus 69.9 % when the pre-trained weights are used. This shows that training with randomly initialized weights leads to better results when working with this dataset. It should be noted that the best validation performance of 94% was achieved using ResNet-18 with pre-trained weights for the dataset [6].
 
 ## Monkey Species dataset
 Lastly, we use the 10 Monkey Species dataset [7]. The dataset contains 1400 images of 10 classes: mantled howler, patas monkey, bald uakari, Japanese macaque, pygmy marmoset, white-headed capuchin, silvery marmoset, the common squirrel monkey, black-headed night monkey, and Nilgiri langur. The set of parameters is shown in the table below.
